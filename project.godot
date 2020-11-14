@@ -16,8 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Distanced"
-run/main_scene="res://MainScene.tscn"
+run/main_scene="res://LobbyMenu.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Network="*res://Network.gd"
 
 [input]
 
