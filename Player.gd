@@ -32,15 +32,20 @@ func _ready ():
 
 func _physics_process(delta):
 	var direction = MoveDirection.NONE
+	vel = Vector2()
 	if is_network_master():
 		if Input.is_action_pressed('move_left'):
+			vel.x -= 1
 			direction = MoveDirection.LEFT
 		elif Input.is_action_pressed('move_right'):
 			direction = MoveDirection.RIGHT
+			vel.x += 1
 		elif Input.is_action_pressed('move_up'):
 			direction = MoveDirection.UP
+			vel.y -= 1
 		elif Input.is_action_pressed('move_down'):
 			direction = MoveDirection.DOWN
+			vel.y += 1
 		
 		rset_unreliable('puppet_position', position)
 		rset('puppet_movement', direction)
@@ -55,7 +60,7 @@ func _physics_process(delta):
 func _move(direction):
 	match direction:
 		MoveDirection.NONE:
-			return
+			continue
 		MoveDirection.UP:
 			move_and_collide(Vector2(0, -moveSpeed))
 			facingDir = Vector2(0, -1)
