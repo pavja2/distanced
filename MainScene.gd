@@ -2,7 +2,6 @@ extends Node2D
 
 export (PackedScene) var Food
 
-
 # Declare member variables here.
 
 var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate", 
@@ -14,6 +13,7 @@ var foods_on_screen = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Food = load("res://Food.tscn")
 	randomize()
 	var rand = RandomNumberGenerator.new()
 	var screen_size = get_viewport().get_visible_rect().size
@@ -35,7 +35,11 @@ func _ready():
 	new_player.name = str(get_tree().get_network_unique_id())
 	print("player name", new_player.name)
 	new_player.set_network_master(get_tree().get_network_unique_id())
-	add_child(new_player)
+	
+
+	get_tree().current_scene.find_node("Players").add_child(new_player)
+	
+	print(get_tree().current_scene.find_node("Players").get_children())
 	var info = Network.self_data
 	new_player.init(info.name, info.position, false)
 
