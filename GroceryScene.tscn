@@ -377,6 +377,7 @@ tile_data = PoolIntArray( -65528, 3, 0, -65527, 2, 0, -65526, 2, 0, -65525, 1, 0
 
 [node name="TileMap_Foreground" type="TileMap" parent="."]
 position = Vector2( -398.878, 259.217 )
+z_index = 2
 mode = 2
 tile_set = SubResource( 15 )
 cell_custom_transform = Transform2D( 64, 0, 0, 128, 0, 0 )
