@@ -25,16 +25,11 @@
 [ext_resource path="res://Sprites/Food/tile385.png" type="Texture" id=23]
 [ext_resource path="res://Sprites/Food/tile400.png" type="Texture" id=24]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 12 ) ],
 "loop": true,
 "name": "chocolate",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 5 ) ],
-"loop": true,
-"name": "oranges",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 17 ) ],
@@ -92,6 +87,11 @@ animations = [ {
 "name": "strawberries",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "oranges",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 4 ) ],
 "loop": true,
 "name": "steak",
@@ -100,11 +100,6 @@ animations = [ {
 "frames": [ ExtResource( 9 ) ],
 "loop": true,
 "name": "apples",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 16 ) ],
-"loop": true,
-"name": "brocoli",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 10 ) ],
@@ -141,19 +136,25 @@ animations = [ {
 "loop": true,
 "name": "cheese",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ) ],
+"loop": true,
+"name": "broccoli",
+"speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 23.2991, 26.2486 )
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 30.071, 27.5856 )
 
-[node name="Food" type="StaticBody2D"]
+[node name="Food" type="Area2D"]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-position = Vector2( -6.49554, -15.9532 )
-frames = SubResource( 2 )
-animation = "cake"
+position = Vector2( -6.49554, -6.73685 )
+scale = Vector2( 2, 2 )
+frames = SubResource( 1 )
+animation = "broccoli"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -6.88135, -6.88054 )
-shape = SubResource( 1 )
+position = Vector2( -7.77326, -4.50212 )
+shape = SubResource( 2 )

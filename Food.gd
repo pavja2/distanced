@@ -1,20 +1,22 @@
-extends StaticBody2D
+extends Area2D
 
 
 # Declare member variables here.
-var foodType = ""
+var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate", 
+"croissants", "eggs", "fish", "garlic", "grapes", "ice cream", "kiwis", "milk",
+"oranges", "potatoes", "pumpkin", "shrimp", "strawberries", "tea", "tomatoes",
+"turkey"]
 
-export var foodToGive : int = 1
+var foodType = food_types[randi() % food_types.size()]
 
 func on_interact(player):
-	player.give_food(foodToGive)
+	player.give_food(foodType)
 	queue_free()
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var food_types = $AnimatedSprite.frames.get_animation_names()
-	$AnimatedSprite.animation = food_types[randi() % food_types.size()]
+	$Sprite.animation = foodType
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

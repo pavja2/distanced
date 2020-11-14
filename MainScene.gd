@@ -1,12 +1,33 @@
 extends Node2D
 
+export (PackedScene) var Food
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+
+# Declare member variables here.
+
+var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate", 
+"croissants", "eggs", "fish", "garlic", "grapes", "ice cream", "kiwis", "milk",
+"oranges", "potatoes", "pumpkin", "shrimp", "strawberries", "tea", "tomatoes",
+"turkey"]
+
+var foods_on_screen = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
+	var rand = RandomNumberGenerator.new()
+	var screen_size = get_viewport().get_visible_rect().size
+	while len(foods_on_screen) < 10:
+		var food = Food.instance()
+		if !foods_on_screen.has(food.foodType):
+			foods_on_screen.append(food.foodType)
+			rand.randomize()
+			var x = rand.randf_range(0,screen_size.x)
+			rand.randomize()
+			var y = rand.randf_range(0,screen_size.y)
+			food.position.y = y
+			food.position.x = x
+			add_child(food)
 	get_tree().connect('network_peer_disconnected', self, '_on_player_disconnected')
 	get_tree().connect('server_disconnected', self, '_on_server_disconnected')
 	
