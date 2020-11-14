@@ -1,5 +1,8 @@
 extends Control
 
+signal zero_health
+signal list_complete
+
 var food_image_dict = {"apples":"tile503.png","bananas":"tile613.png",
 "broccoli":"tile389.png", "cake":"tile543.png", "cheese":"tile328.png", 
 "chocolate":"tile546.png", "croissants":"tile597.png", "eggs":"tile385.png", 
@@ -13,6 +16,7 @@ onready var Gauge : TextureProgress = get_node("HBoxContainer/Bars/Bar/Gauge")
 onready var Number : Label = get_node("HBoxContainer/Bars/Bar/Count/Background/Number")
 
 func update_shopping_list (foodTypes):
+	var completed_values = 0
 	for i in range(len(foodTypes)):
 		if foodTypes[i] != "":
 			var Item : TextureRect = get_node("HBoxContainer/Counters/Counter" + str(i+1) + "/Background/Icon")
@@ -22,7 +26,14 @@ func update_shopping_list (foodTypes):
 			var Counter : MarginContainer = get_node("HBoxContainer/Counters/Counter" + str(i+1))
 			if Counter != null:
 				Counter.queue_free()
+			completed_values += 1
+	if completed_values >= 3:
+		emit_signal("list_complete")
+
 
 func update_health(health):
-	Gauge.value = Gauge.value - health
-	Number.text = str(health)
+	var current_health = Gauge.value - health
+	Gauge.value = current_health
+	Number.text = str(current_health)
+	if current_health == 0:
+		emit_signal("zero_health")

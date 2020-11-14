@@ -2,6 +2,8 @@ extends Node2D
 
 export (PackedScene) var Food
 
+onready var message = get_node("/root/GroceryScene/CanvasLayer/Message")
+
 # Declare member variables here.
 
 var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate", 
@@ -9,10 +11,12 @@ var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate",
 "oranges", "potatoes", "pumpkin", "shrimp", "strawberries", "tea", "tomatoes",
 "turkey"]
 
+var time = 60
 var foods_on_screen = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$CountdownTimer.start()
 	Food = load("res://Food.tscn")
 	randomize()
 	var rand = RandomNumberGenerator.new()
@@ -52,3 +56,22 @@ func _on_server_disconnected():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func game_over():
+	$CountdownTimer.stop()
+	message.show_message("You win!")
+
+ # Called every frame. 'delta' is the elapsed time since the previous frame.
+ #func _process(delta):
+ #	pass
+
+func _on_CountdownTimer_timeout():
+	time = time - 1
+	if time == 0:
+		$CountdownTimer.stop()
+		message.show_message("You lose!")
+	message.update_time(time)
+
+func _on_UI_zero_health():
+	$CountdownTimer.stop()
+	message.show_message("You lose!")

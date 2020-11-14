@@ -1,10 +1,14 @@
 extends KinematicBody2D
 
 onready var ui = get_node("/root/GroceryScene/CanvasLayer/UI")
+onready var message = get_node("/root/GroceryScene/CanvasLayer/Message")
 onready var main = get_node("/root/GroceryScene")
+onready var enemy1 = get_node("/root/GroceryScene/Node/Enemy")
+onready var enemy2 = get_node("/root/GroceryScene/Node2/Enemy")
 
 var moveSpeed : int = 5.0
-var damage : int = 1
+var damage : int = 20
+var damageDist : int = 300
 
 var interactDist : int = 70
 
@@ -22,8 +26,7 @@ puppet var puppet_movement = MoveDirection.NONE
 var shopping_list = []
 
 func _ready ():
-	pass
-
+	$EnemyNearTimer.start()
 
 func _physics_process(delta):
 	var direction = MoveDirection.NONE
@@ -66,16 +69,13 @@ func _move(direction):
 	manage_animations()
 		
 func _process (delta):
-	
 	if Input.is_action_just_pressed("interact"):
 		try_interact()
 	
 func try_interact ():
 	rayCast.cast_to = facingDir * interactDist
 	if rayCast.is_colliding():
-		if rayCast.get_collider() is KinematicBody2D:
-			rayCast.get_collider().take_damage(damage)
-		elif rayCast.get_collider().has_method("on_interact"):
+		if rayCast.get_collider().has_method("on_interact"):
 			rayCast.get_collider().on_interact(self)
 
 func give_food (foodType):
@@ -105,6 +105,9 @@ func play_animation (anim_name):
 	if anim.animation != anim_name:
 		anim.play(anim_name)
 
+func take_damage(damage):
+	ui.update_health(damage)
+
 func init(nickname, start_position, is_puppet):
 	global_position = start_position
 	while len(shopping_list) < 3:
@@ -117,3 +120,7 @@ func init(nickname, start_position, is_puppet):
 		$Camera2D.current = true
 	else:
 		$Camera2D.current = false
+
+func _on_EnemyNearTimer_timeout():
+	if position.distance_to(enemy1.position) <= damageDist or position.distance_to(enemy2.position) <= damageDist:
+		take_damage(damage)
