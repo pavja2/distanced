@@ -1,0 +1,159 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://Sprites/Food/tile613.png" type="Texture" id=1]
+[ext_resource path="res://Food.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/Food/tile522.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Food/tile330.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Food/tile555.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Food/tile387.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Food/tile331.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Food/tile551.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Food/tile503.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Food/tile390.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Food/tile383.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Food/tile546.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Food/tile678.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Food/tile585.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Food/tile361.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Food/tile389.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Food/tile418.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/Food/tile328.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/Food/tile597.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/Food/tile570.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/Food/tile382.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/Food/tile247.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/Food/tile385.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/Food/tile400.png" type="Texture" id=24]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 12 ) ],
+"loop": true,
+"name": "chocolate",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "oranges",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ) ],
+"loop": true,
+"name": "potatoes",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 15 ) ],
+"loop": true,
+"name": "tomatoes",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 23 ) ],
+"loop": true,
+"name": "eggs",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "fish",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ) ],
+"loop": true,
+"name": "ice cream",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "bananas",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "turkey",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 22 ) ],
+"loop": true,
+"name": "milk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 24 ) ],
+"loop": true,
+"name": "tea",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 21 ) ],
+"loop": true,
+"name": "shrimp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "strawberries",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "steak",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "apples",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ) ],
+"loop": true,
+"name": "brocoli",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "garlic",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 19 ) ],
+"loop": true,
+"name": "croissants",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "pumpkin",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 20 ) ],
+"loop": true,
+"name": "cake",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ) ],
+"loop": true,
+"name": "kiwis",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "grapes",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ) ],
+"loop": true,
+"name": "cheese",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 23.2991, 26.2486 )
+
+[node name="Food" type="StaticBody2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+position = Vector2( -6.49554, -15.9532 )
+frames = SubResource( 2 )
+animation = "cake"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -6.88135, -6.88054 )
+shape = SubResource( 1 )
