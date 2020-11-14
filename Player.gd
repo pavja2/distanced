@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+onready var ui = get_node("/root/MainScene/CanvasLayer/UI")
+
+onready var main = get_node("/root/MainScene")
+
 var moveSpeed : int = 5.0
 var damage : int = 1
 
@@ -16,9 +20,15 @@ onready var anim = $AnimatedSprite
 puppet var puppet_position = Vector2()
 puppet var puppet_movement = MoveDirection.NONE
 
+var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate", 
+"croissants", "eggs", "fish", "garlic", "grapes", "ice cream", "kiwis", "milk",
+"oranges", "potatoes", "pumpkin", "shrimp", "strawberries", "tea", "tomatoes",
+"turkey"]
+
+var shopping_list = []
+
 func _ready ():
 	pass
-
 
 func _physics_process(delta):
 	var direction = MoveDirection.NONE
@@ -66,7 +76,18 @@ func _process (delta):
 		try_interact()
 	
 func try_interact ():
-	pass
+	rayCast.cast_to = facingDir * interactDist
+	if rayCast.is_colliding():
+		if rayCast.get_collider() is KinematicBody2D:
+			rayCast.get_collider().take_damage(damage)
+		elif rayCast.get_collider().has_method("on_interact"):
+			rayCast.get_collider().on_interact(self)
+
+func give_food (foodType):
+	ui.update_food_text(foodType)
+	if foodType in shopping_list:
+		shopping_list.erase(foodType)
+	ui.update_shopping_list(shopping_list)
 
 func manage_animations ():
 	if vel.x > 0:
@@ -92,6 +113,13 @@ func play_animation (anim_name):
 
 func init(nickname, start_position, is_puppet):
 	global_position = start_position
+	ui.update_food_text(" ")
+	while len(shopping_list) < 3:
+		var allowed_foods = main.foods_on_screen
+		var food_type = allowed_foods[randi() % allowed_foods.size()]
+		if !shopping_list.has(food_type):
+			shopping_list.append(food_type)
+	ui.update_shopping_list(shopping_list)
 	if not is_puppet:
 		$Camera2D.current = true
 	else:

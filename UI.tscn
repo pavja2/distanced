@@ -1,9 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Font/Roboto-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://UI.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 25
 font_data = ExtResource( 2 )
 
 [node name="UI" type="Control"]
@@ -15,12 +19,25 @@ __meta__ = {
 }
 
 [node name="FoodText" type="Label" parent="."]
-margin_left = 386.0
-margin_top = 482.0
-margin_right = 636.0
-margin_bottom = 514.0
+margin_left = 389.178
+margin_top = 414.194
+margin_right = 639.178
+margin_bottom = 446.194
 custom_fonts/font = SubResource( 1 )
 text = "Food: 0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShoppingList" type="Label" parent="."]
+margin_left = 432.724
+margin_top = 441.682
+margin_right = 589.724
+margin_bottom = 472.682
+custom_fonts/font = SubResource( 2 )
+text = "Shopping List:"
 align = 1
 valign = 1
 __meta__ = {
