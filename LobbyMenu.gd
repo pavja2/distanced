@@ -27,7 +27,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _load_game():
-	get_tree().change_scene("res://MainScene.tscn")
+	get_tree().change_scene("res://GroceryScene.tscn")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

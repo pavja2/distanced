@@ -5,7 +5,7 @@ const DEFAULT_PORT = 31500
 const MAX_PLAYERS = 5
 
 var players = { }
-var self_data = {name = '', position =  Vector2(360, 180)}
+var self_data = {name = '', position =  Vector2(348, 348)}
 
 signal player_disconnected
 signal server_disconnected
@@ -59,7 +59,7 @@ remote func _send_player_info(id, info):
 	var new_player = load('res://Player.tscn').instance()
 	new_player.name = str(id)
 	new_player.set_network_master(id)
-	$'/root/MainScene/'.add_child(new_player)
+	$'/root/GroceryScene/'.add_child(new_player)
 	new_player.init(info.name, info.position, true)
 
 func update_position(id, position):

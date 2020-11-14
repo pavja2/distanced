@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-onready var ui = get_node("/root/MainScene/CanvasLayer/UI")
-onready var main = get_node("/root/MainScene")
+onready var ui = get_node("/root/GroceryScene/CanvasLayer/UI")
+onready var main = get_node("/root/GroceryScene")
 
 var moveSpeed : int = 5.0
 var damage : int = 1
