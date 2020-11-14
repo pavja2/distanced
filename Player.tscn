@@ -16,16 +16,6 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 10 ), ExtResource( 13 ) ],
-"loop": true,
-"name": "MoveUp",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ), ExtResource( 11 ) ],
-"loop": true,
-"name": "MoveRight",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 8 ), ExtResource( 12 ) ],
 "loop": true,
 "name": "MoveLeft",
@@ -34,6 +24,16 @@ animations = [ {
 "frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "MoveDown",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "MoveRight",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "MoveUp",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 6 ) ],
@@ -46,14 +46,14 @@ animations = [ {
 "name": "IdleDown",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ) ],
-"loop": true,
-"name": "IdleRight",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
 "name": "IdleUp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "IdleRight",
 "speed": 5.0
 } ]
 
@@ -61,7 +61,9 @@ animations = [ {
 radius = 21.4102
 height = 8.58875
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"players",
+]]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -75,3 +77,6 @@ shape = SubResource( 2 )
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 collide_with_areas = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
