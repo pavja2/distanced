@@ -16,9 +16,24 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 10 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 6 ) ],
 "loop": true,
-"name": "MoveUp",
+"name": "IdleLeft",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "IdleUp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "IdleRight",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "IdleDown",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
@@ -36,24 +51,9 @@ animations = [ {
 "name": "MoveRight",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 13 ) ],
 "loop": true,
-"name": "IdleUp",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 7 ) ],
-"loop": true,
-"name": "IdleRight",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 6 ) ],
-"loop": true,
-"name": "IdleLeft",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "IdleDown",
+"name": "MoveUp",
 "speed": 5.0
 } ]
 
@@ -77,6 +77,7 @@ shape = SubResource( 2 )
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 collide_with_areas = true
+collide_with_bodies = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

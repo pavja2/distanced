@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://LobbyMenu.gd" type="Script" id=1]
 [ext_resource path="res://interface/fonts/montserrat_eb_48.tres" type="DynamicFont" id=2]
@@ -7,50 +7,54 @@
 [ext_resource path="res://interface/buttons/join-pressed.png" type="Texture" id=5]
 [ext_resource path="res://interface/buttons/create.png" type="Texture" id=6]
 [ext_resource path="res://interface/buttons/create-pressed.png" type="Texture" id=7]
+[ext_resource path="res://interface/green_button00.png" type="Texture" id=8]
+[ext_resource path="res://interface/green_button01.png" type="Texture" id=9]
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -2.24493
+margin_right = -2.24493
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ConnectionMenu" type="VBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -315.0
-margin_top = -120.0
+margin_top = -116.636
 margin_right = 315.0
-margin_bottom = 120.0
+margin_bottom = 195.364
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title2" type="Label" parent="VBoxContainer"]
+[node name="Title1" type="Label" parent="ConnectionMenu"]
 margin_right = 630.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 2 )
 text = "Distanced Lobby"
 align = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ConnectionMenu"]
 margin_top = 72.0
 margin_right = 630.0
 margin_bottom = 124.0
 custom_constants/separation = 20
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="ConnectionMenu/HBoxContainer"]
 margin_right = 240.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 2 )
 text = "Username:"
 align = 2
 
-[node name="TextField" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="NameField" type="LineEdit" parent="ConnectionMenu/HBoxContainer"]
 margin_left = 260.0
 margin_right = 630.0
 margin_bottom = 52.0
@@ -58,14 +62,38 @@ rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 3 )
+placeholder_text = "Anonymous"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="ConnectionMenu"]
 margin_top = 144.0
 margin_right = 630.0
-margin_bottom = 240.0
+margin_bottom = 196.0
+custom_constants/separation = 20
+
+[node name="Label" type="Label" parent="ConnectionMenu/HBoxContainer3"]
+margin_right = 238.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 2 )
+text = "Host Addr:"
+align = 2
+
+[node name="IPField" type="LineEdit" parent="ConnectionMenu/HBoxContainer3"]
+margin_left = 258.0
+margin_right = 630.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 3 )
+placeholder_text = "127.0.0.1"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ConnectionMenu"]
+margin_top = 216.0
+margin_right = 630.0
+margin_bottom = 312.0
 custom_constants/separation = 0
 
-[node name="JoinButton" type="TextureButton" parent="VBoxContainer/HBoxContainer2"]
+[node name="JoinButton" type="TextureButton" parent="ConnectionMenu/HBoxContainer2"]
 margin_right = 315.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 192, 96 )
@@ -76,7 +104,7 @@ texture_pressed = ExtResource( 5 )
 expand = true
 stretch_mode = 5
 
-[node name="CreateButton" type="TextureButton" parent="VBoxContainer/HBoxContainer2"]
+[node name="CreateButton" type="TextureButton" parent="ConnectionMenu/HBoxContainer2"]
 margin_left = 315.0
 margin_right = 630.0
 margin_bottom = 96.0
@@ -87,6 +115,95 @@ texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 7 )
 expand = true
 stretch_mode = 5
-[connection signal="text_changed" from="VBoxContainer/HBoxContainer/TextField" to="." method="_on_TextField_text_changed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer2/JoinButton" to="." method="_on_JoinButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer2/CreateButton" to="." method="_on_CreateButton_pressed"]
+
+[node name="PlayerMenu" type="VBoxContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -300.0
+margin_right = 300.0
+margin_bottom = 525.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinList" type="VBoxContainer" parent="PlayerMenu"]
+margin_right = 600.0
+margin_bottom = 472.0
+rect_min_size = Vector2( 600, 400 )
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title2" type="Label" parent="PlayerMenu/JoinList"]
+margin_right = 600.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 2 )
+text = "Waiting for Players..."
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerMenu/JoinList"]
+margin_top = 72.0
+margin_right = 600.0
+margin_bottom = 472.0
+rect_min_size = Vector2( 400, 400 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerList" type="ItemList" parent="PlayerMenu/JoinList/MarginContainer"]
+margin_right = 600.0
+margin_bottom = 400.0
+custom_fonts/font = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerMenu"]
+margin_top = 476.0
+margin_right = 600.0
+margin_bottom = 525.0
+alignment = 1
+
+[node name="Start" type="TextureButton" parent="PlayerMenu/HBoxContainer"]
+show_behind_parent = true
+margin_left = 205.0
+margin_right = 395.0
+margin_bottom = 49.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerMenu/HBoxContainer/Start"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -93.0
+margin_top = -20.0
+margin_right = 93.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 3 )
+text = "START!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerMenu/HBoxContainer"]
+visible = false
+margin_left = 77.0
+margin_right = 522.0
+margin_bottom = 36.0
+custom_fonts/font = ExtResource( 3 )
+text = "The host will start the game..."
+[connection signal="text_changed" from="ConnectionMenu/HBoxContainer/NameField" to="." method="_on_TextField_text_changed"]
+[connection signal="pressed" from="ConnectionMenu/HBoxContainer2/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="ConnectionMenu/HBoxContainer2/CreateButton" to="." method="_on_CreateButton_pressed"]
+[connection signal="pressed" from="PlayerMenu/HBoxContainer/Start" to="." method="_on_StartButton_pressed"]

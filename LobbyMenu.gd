@@ -12,18 +12,29 @@ func _on_TextField_text_changed(new_text):
 	_player_name = new_text
 
 func _on_CreateButton_pressed():
-	if _player_name == "":
-		return
+	gamestate.player_info['name'] = _player_name
+	$ConnectionMenu.hide()
+	$PlayerMenu.show()
 	Network.create_server()
+	refresh_lobby()
+
+func _on_StartButton_pressed():
+	Network.begin_game()
 
 func _on_JoinButton_pressed():
-	if _player_name == "":
-		return
+	gamestate.player_info['name'] = _player_name
 	Network.join_server(default_ip, default_port)
+	$ConnectionMenu.hide()
+	$PlayerMenu.show()
+	refresh_lobby()
+
+remotesync func on_game_start():
+	get_tree().change_scene("res://GroceryScene.tscn")
 
 func _on_ready_to_play():
+	refresh_lobby()
 	# once there is a server, display the map
-	get_tree().change_scene("res://GroceryScene.tscn")
+	#get_tree().change_scene("res://GroceryScene.tscn")
 
 func _on_join_fail():
 	print("Failed to join server")
@@ -38,10 +49,28 @@ func _ready():
 	
 	# Prints to console when a peer cannot connect to the server
 	Network.connect("join_fail", self, "_on_join_fail")
+	
+	Network.connect("player_list_changed", self, "refresh_lobby")
+	
+	_player_name = $ConnectionMenu/HBoxContainer/NameField.text
 
+func refresh_lobby():
+	var players = Network.players
+	$PlayerMenu/JoinList/MarginContainer/PlayerList.clear()
+	$PlayerMenu/JoinList/MarginContainer/PlayerList.add_item(gamestate.player_info['name'] + " (You)")
+	for p in players.values():
+		#Don't add ourselves twoce
+		if p['net_id'] != gamestate.player_info['net_id']:
+			$PlayerMenu/JoinList/MarginContainer/PlayerList.add_item(p['name'])
+	
+	# Only the host gets a start button
+	if not get_tree().is_network_server():
+		$PlayerMenu/HBoxContainer/Start.hide()
+		$PlayerMenu/HBoxContainer/Start/Label.show()
+	else:
+		$PlayerMenu/HBoxContainer/Start.show()
+		$PlayerMenu/HBoxContainer/Start/Label.hide()
 
-func _load_game():
-	get_tree().change_scene("res://GroceryScene.tscn")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

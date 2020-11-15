@@ -31,6 +31,7 @@ func _ready():
 
 func update_food_list(food_data):
 	food_list = food_data
+	print("emitting food list signal")
 	emit_signal("food_list_updated")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
