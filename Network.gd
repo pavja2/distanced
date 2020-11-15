@@ -12,8 +12,11 @@ signal join_fail # The peer fails to join a server
 signal player_list_changed # A player has joined or left the game
 signal player_removed(pinfo) # A player is removed from the game list
 signal game_start #The host is ready to start the game
+signal game_won #Everyone finished their list
+signal game_lost #Someone died
 
 var players_ready = []
+var players_won = []
 
 func _on_player_connected(id):
 	print("Player with id ", id, " connected to server")
@@ -132,7 +135,31 @@ remote func ready_to_start(id):
 			if p['net_id'] != 1:
 				rpc_id(p['net_id'], "post_start_game")
 		post_start_game()
-	
+
+remote func player_win(id):
+	if get_tree().is_network_server():
+		if not id in players_won:
+			players_won.append(id)
+		if len(players_won) == len(players):
+			emit_win_condition()
+			rpc('emit_win_condition')
+	else:
+		rpc_id(1, 'player_win', id)
+
+
+remote func player_lose(pinfo):
+	if get_tree().is_network_server():
+		emit_lose_condition(pinfo)
+		rpc('emit_lose_condition', pinfo)
+	else:
+		rpc_id(1, 'player_lose', pinfo)
+
+remote func emit_win_condition():
+	emit_signal('game_won')
+
+remote func emit_lose_condition(pinfo):
+	emit_signal('game_lost', pinfo)
+
 func begin_game():
 	assert(get_tree().is_network_server())
 	for p in players.values():

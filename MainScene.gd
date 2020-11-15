@@ -3,7 +3,6 @@ extends Node2D
 export (PackedScene) var Food
 
 onready var message = get_node("/root/GroceryScene/CanvasLayer/Message")
-
 var start_position = ""
 var list_complete = false
 
@@ -13,6 +12,8 @@ var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate",
 "croissants", "eggs", "fish", "garlic", "grapes", "ice cream", "kiwis", "milk",
 "oranges", "potatoes", "pumpkin", "shrimp", "strawberries", "tea", "tomatoes",
 "turkey"]
+
+signal can_move
 
 puppet var foods_on_screen = []
 
@@ -83,29 +84,28 @@ remote func spawn_food(food_items):
 			var limits = get_viewport_rect().size
 			var food_item_list = []
 			var food_name_list = []
-			
+
 			while len(food_item_list) < 18:
 				var food_type = food_types[randi() % food_types.size()]
-				
+
 				if !(food_type in food_name_list):
 					var food_loc = Vector2(rand_range(0, limits.x), rand_range(0, limits.y))
 					var spawn_id = len(food_item_list) + 1
 					food_item_list.append({
-						'food_type': food_type, 
+						'food_type': food_type,
 						'x': food_loc.x,
 						'y': food_loc.y,
 						'spawn_id': spawn_id
 						})
 					food_name_list.append(food_type)
 			gamestate.update_food_list(food_item_list)
-		
+
 		food_items = gamestate.food_list
 		rpc("spawn_food", food_items)
-		
+
 	if gamestate.spawned_food == 0:
 		if len(gamestate.food_list) == 0:
 			gamestate.update_food_list(food_items)
-			print("Setting my food list to ", food_items)
 		for food_item in gamestate.food_list:
 			var food = Food.instance()
 			food.set_food_type(food_item['food_type'])
@@ -132,6 +132,8 @@ func _ready():
 	$BeforeGameTimer.start()
 	# Connect to listen for when the player list changes
 	Network.connect("player_list_changed", self, "_on_player_list_changed")
+	Network.connect("game_won", self, '_on_game_won')
+	Network.connect("game_lost", self, '_on_game_lost')
 
 	# If we are the server, we want to listen for player removals too
 	if (get_tree().is_network_server()):
@@ -158,45 +160,65 @@ func _on_player_disconnected(id):
 func _on_server_disconnected():
 	get_tree().change_scene('res://LobbyMenu.tscn')
 
+func _on_game_won():
+	message.show_message("Everyone made it!")
+	$GameExitTimer.start()
+	$GameWon.play()
+
+func _on_game_lost(pinfo):
+	$GameExitTimer.start(8)
+	message.show_message("Gameover: \n"+ str(pinfo['name']) + " didn't distance.")
+	$GameLost.play()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-	
+
  # Called every frame. 'delta' is the elapsed time since the previous frame.
  #func _process(delta):
  #	pass
+
+func end_game():
+	get_tree().change_scene("res://LobbyMenu.tscn")
+	self.queue_free()
 
 func _on_CountdownTimer_timeout():
 	time = time - 1
 	if time == 0:
 		$CountdownTimer.stop()
 		$GameLost.play()
-		message.show_message("Out of time!")
+		#message.show_message("Out of time!")
+		Network.player_lose(gamestate.player_info)
 	message.update_time(time)
 
 func _on_UI_zero_health():
 	$CountdownTimer.stop()
 	$GameLost.play()
-	message.show_message("No health!")
+	Network.player_lose(gamestate.player_info)
+	#message.show_message("No health!")
 
 func _on_BeforeGameTimer_timeout():
 	message.show_message(str(time_to_start) + "...")
 	if time_to_start == 0:
-		message.show_message("Start Game!")
+		message.show_message("Get your groceries!")
 		$GameStart.play()
 		$BeforeGameTimer.stop()
 		$CountdownTimer.start()
+		gamestate.end_countdown()
+
 	time_to_start = time_to_start - 1
 
 func _on_Area2D_area_entered(area):
-	print(list_complete)
 	if list_complete:
-		$CountdownTimer.stop()
 		$GameWon.play()
-		message.show_game_win()
+		Network.player_win(gamestate.player_info['net_id'])
+		message.show_message("You made it out!")
+		#message.show_game_win()
 
 
 func _on_UI_list_complete():
 	list_complete = true
-	print(list_complete)
-	message.show_message("You got all the items!")
+	message.show_message("Now find the exit!")
+
+
+func _on_GameExitTimer_timeout():
+	end_game()

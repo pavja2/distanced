@@ -3,13 +3,10 @@
 [ext_resource path="res://Message.gd" type="Script" id=1]
 [ext_resource path="res://UI/font/Comfortaa-Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://UI/GUI/label_HP_bg.png" type="Texture" id=3]
+[ext_resource path="res://interface/fonts/montserrat_eb_48.tres" type="DynamicFont" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 64
 font_data = ExtResource( 2 )
 
 [node name="Message" type="Control"]
@@ -58,13 +55,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ResultMessage" type="Label" parent="."]
-margin_left = -411.543
-margin_top = -55.2298
-margin_right = 607.457
-margin_bottom = 39.7702
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+[node name="CenterContainer" type="CenterContainer" parent="."]
+visible = false
+margin_left = -415.0
+margin_top = -109.0
+margin_right = 603.0
+margin_bottom = 297.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+margin_left = 502.0
+margin_top = 196.0
+margin_right = 516.0
+margin_bottom = 210.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResultMessage" type="Label" parent="CenterContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 7.0
+margin_bottom = 59.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.905882, 0.905882, 0.905882, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 align = 1
 valign = 1

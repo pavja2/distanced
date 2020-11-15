@@ -862,8 +862,12 @@ stream = ExtResource( 8 )
 
 [node name="GameWon" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+
+[node name="GameExitTimer" type="Timer" parent="."]
+wait_time = 15.0
 [connection signal="list_complete" from="CanvasLayer/UI" to="." method="_on_UI_list_complete"]
 [connection signal="zero_health" from="CanvasLayer/UI" to="." method="_on_UI_zero_health"]
 [connection signal="timeout" from="CountdownTimer" to="." method="_on_CountdownTimer_timeout"]
 [connection signal="timeout" from="BeforeGameTimer" to="." method="_on_BeforeGameTimer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="timeout" from="GameExitTimer" to="." method="_on_GameExitTimer_timeout"]
