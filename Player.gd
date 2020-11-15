@@ -7,7 +7,7 @@ onready var main = get_node("/root/GroceryScene")
 
 var moveSpeed : int = 5.0
 var damage : int = 20
-var damageDist : int = 300
+var damageDist : int = 100
 
 var interactDist : int = 100
 
@@ -18,20 +18,28 @@ enum MoveDirection { UP, DOWN, LEFT, RIGHT, NONE }
 
 onready var rayCast = $RayCast2D
 onready var anim = $AnimatedSprite
+var contact_zone
 
 puppet var puppet_position = Vector2()
 puppet var puppet_movement = MoveDirection.NONE
 
 var shopping_list = []
 
+# override this function so we can identify player zones
+func is_class(type):
+	return type == "Player" or .is_class(type)
+
 func _ready ():
 	gamestate.connect("food_list_updated", self, '_on_food_list_update')
+	var contact_zone_class = load('res://distance_area.tscn')
+	contact_zone = contact_zone_class.instance()
+	add_child(contact_zone)
+	contact_zone.connect("area_entered", self, '_on_area_entered')
+
 	if is_network_master():
 		$Camera2D.current = true
 	else:
 		$Camera2D.current = false
-
-	$EnemyNearTimer.start()
 
 func _on_food_list_update():
 	while len(shopping_list) < 3:
@@ -39,7 +47,8 @@ func _on_food_list_update():
 		var food_task = allowed_foods[randi() % allowed_foods.size()]
 		if !shopping_list.has(food_task['food_type']):
 			shopping_list.append(food_task['food_type'])
-	ui.update_shopping_list(shopping_list)
+	if is_network_master():
+		ui.update_shopping_list(shopping_list)
 
 func _physics_process(delta):
 	var direction = MoveDirection.NONE
@@ -52,7 +61,8 @@ func _physics_process(delta):
 			direction = MoveDirection.UP
 		elif Input.is_action_pressed('move_down'):
 			direction = MoveDirection.DOWN
-
+		elif Input.is_action_just_pressed("interact"):
+			try_interact()
 		rset_unreliable('puppet_position', position)
 		rset('puppet_movement', direction)
 		_move(direction)
@@ -80,19 +90,25 @@ func _move(direction):
 	manage_animations()
 
 func _process (delta):
-	if Input.is_action_just_pressed("interact"):
-		try_interact()
+	pass
 
 func try_interact ():
+	print("Interaction")
 	rayCast.cast_to = facingDir * interactDist
 	if rayCast.is_colliding():
+		print("Colliding")
 		if rayCast.get_collider().has_method("on_interact"):
+			print("collided with ", rayCast.get_collider())
 			rayCast.get_collider().on_interact(self)
 
 func give_food (foodType):
-	if foodType in shopping_list:
-		shopping_list[shopping_list.find(foodType)] = ""
-	ui.update_shopping_list(shopping_list)
+	if foodType in shopping_list:	
+		var foodIndex = shopping_list.find(foodType)
+		shopping_list[foodIndex] = ""
+		if is_network_master():
+			ui.update_shopping_list(shopping_list)
+			shopping_list[foodIndex] = "completed"
+			
 
 func manage_animations ():
 	if vel.x > 0:
@@ -117,10 +133,10 @@ func play_animation (anim_name):
 		anim.play(anim_name)
 
 func take_damage(damage):
-	ui.update_health(damage)
+	if is_network_master():
+		ui.update_health(damage)
 
-func _on_EnemyNearTimer_timeout():
-	if len(gamestate.enemy_list) > 0:
-		for enemy in gamestate.enemy_list:
-			if position.distance_to(enemy.get_children()[0].position) <= damageDist:
-				take_damage(damage)
+func _on_area_entered(area):
+	var collide_parent = area.get_parent()
+	if collide_parent.is_class("Enemy") or collide_parent.is_class("Player"):
+		take_damage(damage)

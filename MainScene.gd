@@ -101,12 +101,8 @@ remote func spawn_food(food_items):
 		if len(gamestate.food_list) == 0:
 			gamestate.update_food_list(food_items)
 		for food_item in gamestate.food_list:
-			print("Food Item List", food_items)
 			var food = Food.instance()
-			print("Want to set " , food_item['food_type'])
 			food.set_food_type(food_item['food_type'])
-			print("Ended up with ", food_item['food_type'])
-			print(food.foodType)
 			food.position = $FoodSpawns.get_node(str(food_item['spawn_id'])).position
 			#food.position = Vector2(food_item['x'], food_item['y'])
 			add_child(food)

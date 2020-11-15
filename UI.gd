@@ -18,14 +18,15 @@ onready var Number : Label = get_node("HBoxContainer/Bars/Bar/Count/Background/N
 func update_shopping_list (foodTypes):
 	var completed_values = 0
 	for i in range(len(foodTypes)):
-		if foodTypes[i] != "":
+		if foodTypes[i] != "" and foodTypes[i] != "completed":
 			var Item : TextureRect = get_node("HBoxContainer/Counters/Counter" + str(i+1) + "/Background/Icon")
 			var path = "res://Sprites/Food/" + food_image_dict[foodTypes[i]]
 			Item.set_texture(load(path))
-		else:
+		elif foodTypes[i] == "":
 			var Counter : MarginContainer = get_node("HBoxContainer/Counters/Counter" + str(i+1))
 			if Counter != null:
 				Counter.queue_free()
+		else:
 			completed_values += 1
 	if completed_values >= 3:
 		emit_signal("list_complete")
