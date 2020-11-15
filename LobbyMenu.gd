@@ -1,7 +1,7 @@
 extends Control
 
 var _player_name= ""
-var default_ip = "127.0.0.1"
+var _ip_addr = "127.0.0.1"
 var default_port = 31500
 
 # Declare member variables here. Examples:
@@ -23,7 +23,7 @@ func _on_StartButton_pressed():
 
 func _on_JoinButton_pressed():
 	gamestate.player_info['name'] = _player_name
-	Network.join_server(default_ip, default_port)
+	Network.join_server(_ip_addr, default_port)
 	$ConnectionMenu.hide()
 	$PlayerMenu.show()
 	refresh_lobby()
@@ -74,3 +74,7 @@ func refresh_lobby():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+
+func _on_IPField_text_changed(new_text):
+	_ip_addr = new_text

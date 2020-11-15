@@ -1,6 +1,7 @@
 extends Node
 
 signal food_list_updated
+signal countdown_finished
 
 # This represents the local player
 var player_info = {
@@ -31,8 +32,10 @@ func _ready():
 
 func update_food_list(food_data):
 	food_list = food_data
-	print("emitting food list signal")
 	emit_signal("food_list_updated")
+
+func end_countdown():
+	emit_signal("countdown_finished")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

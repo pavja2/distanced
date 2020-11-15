@@ -13,8 +13,9 @@ func show_game_loss():
 	show_message("You lose!")
 
 func show_message(text):
-	$ResultMessage.text = text
-	$ResultMessage.show()
+	$MessageTimer.stop()
+	$CenterContainer/PanelContainer/ResultMessage.text = text
+	$CenterContainer.show()
 	$MessageTimer.start()
 
 func update_time(time):
@@ -30,4 +31,4 @@ func _ready():
 #	pass
 
 func _on_MessageTimer_timeout():
-	$ResultMessage.hide()
+	$CenterContainer.hide()

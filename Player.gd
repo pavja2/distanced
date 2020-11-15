@@ -18,6 +18,7 @@ enum MoveDirection { UP, DOWN, LEFT, RIGHT, NONE }
 
 onready var rayCast = $RayCast2D
 onready var anim = $AnimatedSprite
+onready var can_move = false
 var contact_zone
 
 puppet var puppet_position = Vector2()
@@ -31,6 +32,7 @@ func is_class(type):
 
 func _ready ():
 	gamestate.connect("food_list_updated", self, '_on_food_list_update')
+	gamestate.connect("countdown_finished", self, '_on_countdown_finished')
 	var contact_zone_class = load('res://distance_area.tscn')
 	contact_zone = contact_zone_class.instance()
 	add_child(contact_zone)
@@ -43,8 +45,6 @@ func _ready ():
 		$Camera2D.current = false
 
 func _on_food_list_update():
-	print("Foodlist update detected")
-	print("Current shopping list ", shopping_list)
 	while len(shopping_list) < 3:
 		var allowed_foods = gamestate.food_list
 		var food_task = allowed_foods[randi() % allowed_foods.size()]
@@ -91,8 +91,9 @@ func _move(direction):
 			facingDir = Vector2(1, 0)
 
 	rayCast.cast_to = facingDir * interactDist
-	move_and_collide(vel)
-	manage_animations()
+	if can_move:
+		move_and_collide(vel)
+		manage_animations()
 
 func _process (delta):
 	if len(shopping_list) == 0 && len(gamestate.food_list) > 0:
@@ -111,7 +112,6 @@ func give_food (foodType):
 		if is_network_master():
 			ui.update_shopping_list(shopping_list)
 			shopping_list[foodIndex] = "completed"
-
 
 func manage_animations ():
 	if vel.x > 0:
@@ -151,10 +151,12 @@ func _on_area_exited(area):
 		if len(neighbors) > 1:
 			for neighbor in neighbors:
 				var neighbor_type = neighbor.get_parent()
-				print(neighbor_type)
 				if neighbor_type.is_class("Enemy") or neighbor_type.is_class("Player"):
 					return
 		$EnemyNearTimer.stop()
+
+func _on_countdown_finished():
+	can_move = true
 
 func _on_EnemyNearTimer_timeout():
 	take_damage(1)
