@@ -28,7 +28,8 @@ func update_shopping_list (foodTypes):
 				Counter.queue_free()
 		else:
 			completed_values += 1
-	if completed_values >= 3:
+			
+	if completed_values >= 2:
 		emit_signal("list_complete")
 
 
