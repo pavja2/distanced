@@ -84,25 +84,25 @@ remote func spawn_food(food_items):
 			var limits = get_viewport_rect().size
 			var food_item_list = []
 			var food_name_list = []
-			
-			while len(food_item_list) < 9:
+
+			while len(food_item_list) < 18:
 				var food_type = food_types[randi() % food_types.size()]
-				
+
 				if !(food_type in food_name_list):
 					var food_loc = Vector2(rand_range(0, limits.x), rand_range(0, limits.y))
 					var spawn_id = len(food_item_list) + 1
 					food_item_list.append({
-						'food_type': food_type, 
+						'food_type': food_type,
 						'x': food_loc.x,
 						'y': food_loc.y,
 						'spawn_id': spawn_id
 						})
 					food_name_list.append(food_type)
 			gamestate.update_food_list(food_item_list)
-		
+
 		food_items = gamestate.food_list
 		rpc("spawn_food", food_items)
-		
+
 	if gamestate.spawned_food == 0:
 		if len(gamestate.food_list) == 0:
 			gamestate.update_food_list(food_items)
@@ -134,7 +134,7 @@ func _ready():
 	Network.connect("player_list_changed", self, "_on_player_list_changed")
 	Network.connect("game_won", self, '_on_game_won')
 	Network.connect("game_lost", self, '_on_game_lost')
-	
+
 	# If we are the server, we want to listen for player removals too
 	if (get_tree().is_network_server()):
 		Network.connect("player_removed", self, "_on_player_removed")
@@ -172,7 +172,7 @@ func _on_game_lost(pinfo):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-	
+
  # Called every frame. 'delta' is the elapsed time since the previous frame.
  #func _process(delta):
  #	pass
@@ -204,7 +204,7 @@ func _on_BeforeGameTimer_timeout():
 		$BeforeGameTimer.stop()
 		$CountdownTimer.start()
 		gamestate.end_countdown()
-		
+
 	time_to_start = time_to_start - 1
 
 func _on_Area2D_area_entered(area):

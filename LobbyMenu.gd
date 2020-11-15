@@ -4,6 +4,7 @@ var _player_name= ""
 var _ip_addr = "127.0.0.1"
 var default_port = 31500
 
+onready var JitsiLink = get_node("PlayerMenu/JitsiLink")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -12,7 +13,10 @@ func _on_TextField_text_changed(new_text):
 	_player_name = new_text
 
 func _on_CreateButton_pressed():
+	print(JitsiLink)
 	gamestate.player_info['name'] = _player_name
+	var link = generate_jitsi_link()
+	JitsiLink.text = "Join Video Chat:\n" + link
 	$ConnectionMenu.hide()
 	$PlayerMenu.show()
 	Network.create_server()
@@ -27,6 +31,13 @@ func _on_JoinButton_pressed():
 	$ConnectionMenu.hide()
 	$PlayerMenu.show()
 	refresh_lobby()
+
+func generate_jitsi_link():
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var number = rng.randi_range(0, 10000)
+	var link = "https://meet.jit.si/DistancedGameGroup" + str(number)
+	return link
 
 remotesync func on_game_start():
 	get_tree().change_scene("res://GroceryScene.tscn")
