@@ -77,6 +77,8 @@ func _move(direction):
 		MoveDirection.RIGHT:
 			vel = Vector2(moveSpeed, 0)
 			facingDir = Vector2(1, 0)
+	
+	rayCast.cast_to = facingDir * interactDist
 	move_and_collide(vel)
 	manage_animations()
 
@@ -85,7 +87,6 @@ func _process (delta):
 		try_interact()
 
 func try_interact ():
-	rayCast.cast_to = facingDir * interactDist
 	if rayCast.is_colliding():
 		if rayCast.get_collider().has_method("on_interact"):
 			rayCast.get_collider().on_interact(self)

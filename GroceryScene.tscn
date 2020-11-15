@@ -771,28 +771,28 @@ scale = Vector2( 0.555591, 0.841868 )
 [node name="FoodSpawns" type="Node2D" parent="."]
 
 [node name="1" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 792, 280 )
+position = Vector2( 792, 295.977 )
 
 [node name="2" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 1122.84, 924.485 )
+position = Vector2( 1122.84, 935.763 )
 
 [node name="3" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 1056, 280 )
+position = Vector2( 1056.94, 298.796 )
 
 [node name="4" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 792, 536 )
+position = Vector2( 792.94, 521.903 )
 
 [node name="5" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 924, 536 )
+position = Vector2( 924.94, 524.722 )
 
 [node name="6" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 1163.94, 536 )
+position = Vector2( 1164.88, 525.662 )
 
 [node name="7" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 1365.05, 592 )
+position = Vector2( 1377.27, 592 )
 
 [node name="8" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 792, 924.485 )
+position = Vector2( 792, 935.763 )
 
 [node name="9" type="Position2D" parent="FoodSpawns"]
 position = Vector2( 323.177, 1105.5 )
