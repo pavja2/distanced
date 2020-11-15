@@ -748,6 +748,12 @@ cell_tile_origin = 1
 format = 1
 tile_data = PoolIntArray( 37, 4, 0, 38, 4, 1, 39, 4, 1, 40, 4, 1, 41, 4, 1, 42, 4, 1, 43, 4, 2, 65545, 1, 0, 262181, 4, 0, 262182, 4, 1, 262183, 4, 1, 262184, 4, 1, 262185, 4, 1, 262186, 4, 1, 262187, 4, 2, 262190, -1073741820, 2, 327726, -1073741820, 0, 655397, 4, 0, 655398, 4, 1, 655399, 4, 1, 655400, 4, 1, 655401, 4, 1, 655402, 4, 1, 655403, 4, 2, 1310758, 4, 0, 1310759, 4, 1 )
 
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( -1608, 259.217 )
+tile_set = ExtResource( 2 )
+format = 1
+tile_data = PoolIntArray( 49, 57, 0, 65564, 57, 0, 262179, 61, 0, 262188, 60, 0, 655405, 59, 0, 720935, 59, 0, 983068, 57, 0, 1179685, 57, 0 )
+
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="1" type="Position2D" parent="SpawnPoints"]
