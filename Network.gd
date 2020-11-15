@@ -11,7 +11,9 @@ signal join_success # The peer joins a server
 signal join_fail # The peer fails to join a server
 signal player_list_changed # A player has joined or left the game
 signal player_removed(pinfo) # A player is removed from the game list
+signal game_start #The host is ready to start the game
 
+var players_ready = []
 
 func _on_player_connected(id):
 	print("Player with id ", id, " connected to server")
@@ -104,6 +106,39 @@ remote func unregister_player(id):
 	emit_signal("player_list_changed")
 	# Emit a signal for the server to clean up this player
 	emit_signal("player_removed", pinfo)
+
+remote func pre_start_game():
+	# Change scene
+	get_tree().set_pause(true)
+	var world = load("res://GroceryScene.tscn").instance()
+	get_tree().get_root().add_child(world)
+	world.init_world()
+	get_tree().get_root().get_node("Menu").hide()
+	if not get_tree().is_network_server():
+		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
+	elif players.size() == 1:
+		post_start_game()
+
+remote func post_start_game():
+	get_tree().set_pause(false)
+
+remote func ready_to_start(id):
+	assert(get_tree().is_network_server())
+	
+	if not id in players_ready:
+		players_ready.append(id)
+	if players_ready.size() == players.size() - 1:
+		for p in players.values():
+			if p['net_id'] != 1:
+				rpc_id(p['net_id'], "post_start_game")
+		post_start_game()
+	
+func begin_game():
+	assert(get_tree().is_network_server())
+	for p in players.values():
+		if p['net_id'] != 1:
+			rpc_id(p['net_id'], "pre_start_game")
+	pre_start_game()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

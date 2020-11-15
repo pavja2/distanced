@@ -98,17 +98,18 @@ remote func spawn_food(food_items):
 						})
 					food_name_list.append(food_type)
 			gamestate.update_food_list(food_item_list)
+		
 		food_items = gamestate.food_list
 		rpc("spawn_food", food_items)
 		
 	if gamestate.spawned_food == 0:
 		if len(gamestate.food_list) == 0:
 			gamestate.update_food_list(food_items)
+			print("Setting my food list to ", food_items)
 		for food_item in gamestate.food_list:
 			var food = Food.instance()
 			food.set_food_type(food_item['food_type'])
 			food.position = $FoodSpawns.get_node(str(food_item['spawn_id'])).position
-			#food.position = Vector2(food_item['x'], food_item['y'])
 			add_child(food)
 			gamestate.spawned_food +=1
 
@@ -136,6 +137,7 @@ func _ready():
 	if (get_tree().is_network_server()):
 		Network.connect("player_removed", self, "_on_player_removed")
 
+func init_world():
 	# Spawn the players on the map
 	if (get_tree().is_network_server()):
 		spawn_players(gamestate.player_info, 1)
@@ -144,7 +146,7 @@ func _ready():
 	else:
 		rpc_id(1, "spawn_players", gamestate.player_info, -1)
 		rpc_id(1, "sync_bots")
-		rpc_id(1, "spawn_food",[])
+		rpc("spawn_food",[])
 
 
 var time = 60

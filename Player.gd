@@ -43,6 +43,8 @@ func _ready ():
 		$Camera2D.current = false
 
 func _on_food_list_update():
+	print("Foodlist update detected")
+	print("Current shopping list ", shopping_list)
 	while len(shopping_list) < 3:
 		var allowed_foods = gamestate.food_list
 		var food_task = allowed_foods[randi() % allowed_foods.size()]
@@ -93,13 +95,12 @@ func _move(direction):
 	manage_animations()
 
 func _process (delta):
-	pass
+	if len(shopping_list) == 0 && len(gamestate.food_list) > 0:
+		_on_food_list_update()
 
 func try_interact ():
 	if rayCast.is_colliding():
-		print("Colliding")
 		if rayCast.get_collider().has_method("on_interact"):
-			print("collided with ", rayCast.get_collider())
 			rayCast.get_collider().on_interact(self)
 
 func give_food (foodType):
