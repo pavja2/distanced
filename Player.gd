@@ -3,14 +3,13 @@ extends KinematicBody2D
 onready var ui = get_node("/root/GroceryScene/CanvasLayer/UI")
 onready var message = get_node("/root/GroceryScene/CanvasLayer/Message")
 onready var main = get_node("/root/GroceryScene")
-#onready var enemy1 = get_node("/root/GroceryScene/Node/Enemy")
-#onready var enemy2 = get_node("/root/GroceryScene/Node2/Enemy")
+
 
 var moveSpeed : int = 5.0
 var damage : int = 20
 var damageDist : int = 300
 
-var interactDist : int = 70
+var interactDist : int = 100
 
 var vel = Vector2()
 var facingDir = Vector2()
@@ -26,12 +25,21 @@ puppet var puppet_movement = MoveDirection.NONE
 var shopping_list = []
 
 func _ready ():
+	gamestate.connect("food_list_updated", self, '_on_food_list_update')
 	if is_network_master():
 		$Camera2D.current = true
 	else:
 		$Camera2D.current = false
 
 	$EnemyNearTimer.start()
+
+func _on_food_list_update():
+	while len(shopping_list) < 3:
+		var allowed_foods = gamestate.food_list
+		var food_task = allowed_foods[randi() % allowed_foods.size()]
+		if !shopping_list.has(food_task['food_type']):
+			shopping_list.append(food_task['food_type'])
+	ui.update_shopping_list(shopping_list)
 
 func _physics_process(delta):
 	var direction = MoveDirection.NONE
@@ -111,20 +119,8 @@ func play_animation (anim_name):
 func take_damage(damage):
 	ui.update_health(damage)
 
-func init(nickname, start_position, is_puppet):
-	global_position = start_position
-	while len(shopping_list) < 3:
-		var allowed_foods = main.foods_on_screen
-		var food_type = allowed_foods[randi() % allowed_foods.size()]
-		if !shopping_list.has(food_type):
-			shopping_list.append(food_type)
-	ui.update_shopping_list(shopping_list)
-	if not is_puppet:
-		$Camera2D.current = true
-	else:
-		$Camera2D.current = false
-
 func _on_EnemyNearTimer_timeout():
-	pass
-	#if position.distance_to(enemy1.position) <= damageDist or position.distance_to(enemy2.position) <= damageDist:
-	#	take_damage(damage)
+	if len(gamestate.enemy_list) > 0:
+		for enemy in gamestate.enemy_list:
+			if position.distance_to(enemy.get_children()[0].position) <= damageDist:
+				take_damage(damage)
