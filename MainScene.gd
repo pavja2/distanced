@@ -84,7 +84,7 @@ remote func spawn_food(food_items):
 			var food_item_list = []
 			var food_name_list = []
 			
-			while len(food_item_list) < 5:
+			while len(food_item_list) < 18:
 				var food_type = food_types[randi() % food_types.size()]
 				
 				if !(food_type in food_name_list):
