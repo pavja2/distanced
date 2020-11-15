@@ -21,6 +21,11 @@ animations = [ {
 "name": "MoveLeft",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "MoveDown",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 9 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "MoveRight",
@@ -31,14 +36,14 @@ animations = [ {
 "name": "MoveUp",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
-"loop": true,
-"name": "MoveDown",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "IdleLeft",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "IdleUp",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 1 ) ],
@@ -49,11 +54,6 @@ animations = [ {
 "frames": [ ExtResource( 7 ) ],
 "loop": true,
 "name": "IdleRight",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 5 ) ],
-"loop": true,
-"name": "IdleUp",
 "speed": 5.0
 } ]
 
@@ -74,9 +74,12 @@ playing = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
 
+[node name="EnemyNearTimer" type="Timer" parent="."]
+
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 collide_with_areas = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+[connection signal="timeout" from="EnemyNearTimer" to="." method="_on_EnemyNearTimer_timeout"]

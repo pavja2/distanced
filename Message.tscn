@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Message.gd" type="Script" id=1]
+[ext_resource path="res://UI/font/Comfortaa-Bold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI/GUI/label_HP_bg.png" type="Texture" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 64
+font_data = ExtResource( 2 )
+
+[node name="Message" type="Control"]
+margin_left = 416.433
+margin_top = 304.187
+margin_right = 456.433
+margin_bottom = 344.187
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = -4.32581
+margin_top = 193.326
+margin_right = 131.674
+margin_bottom = 249.326
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+margin_right = 136.0
+margin_bottom = 56.0
+texture = ExtResource( 3 )
+expand = true
+
+[node name="CountdownTimer" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -22.6652
+margin_top = 171.072
+margin_right = 109.335
+margin_bottom = 226.072
+custom_fonts/font = SubResource( 1 )
+text = "60"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResultMessage" type="Label" parent="."]
+margin_left = -411.543
+margin_top = -55.2298
+margin_right = 607.457
+margin_bottom = 39.7702
+custom_fonts/font = SubResource( 2 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="timeout" from="MessageTimer" to="." method="_on_MessageTimer_timeout"]

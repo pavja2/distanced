@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+var damageDist : int = 80
 var move_speed = 100
 export (NodePath) var patrol_path
 var patrol_points
