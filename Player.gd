@@ -6,8 +6,8 @@ onready var main = get_node("/root/GroceryScene")
 
 
 var moveSpeed : int = 5.0
-var damage : int = 20
-var damageDist : int = 300
+var damage : int = 10
+var damageDist : int = 200
 
 var interactDist : int = 100
 
@@ -26,6 +26,7 @@ var shopping_list = []
 
 func _ready ():
 	gamestate.connect("food_list_updated", self, '_on_food_list_update')
+	
 	if is_network_master():
 		$Camera2D.current = true
 	else:
