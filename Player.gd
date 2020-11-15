@@ -6,8 +6,8 @@ onready var main = get_node("/root/GroceryScene")
 
 
 var moveSpeed : int = 5.0
-var damage : int = 20
-var damageDist : int = 100
+var damage : int = 10
+var damageDist : int = 200
 
 var interactDist : int = 100
 
@@ -86,6 +86,8 @@ func _move(direction):
 		MoveDirection.RIGHT:
 			vel = Vector2(moveSpeed, 0)
 			facingDir = Vector2(1, 0)
+
+	rayCast.cast_to = facingDir * interactDist
 	move_and_collide(vel)
 	manage_animations()
 
@@ -93,8 +95,6 @@ func _process (delta):
 	pass
 
 func try_interact ():
-	print("Interaction")
-	rayCast.cast_to = facingDir * interactDist
 	if rayCast.is_colliding():
 		print("Colliding")
 		if rayCast.get_collider().has_method("on_interact"):
@@ -102,13 +102,13 @@ func try_interact ():
 			rayCast.get_collider().on_interact(self)
 
 func give_food (foodType):
-	if foodType in shopping_list:	
+	if foodType in shopping_list:
 		var foodIndex = shopping_list.find(foodType)
 		shopping_list[foodIndex] = ""
 		if is_network_master():
 			ui.update_shopping_list(shopping_list)
 			shopping_list[foodIndex] = "completed"
-			
+
 
 func manage_animations ():
 	if vel.x > 0:
