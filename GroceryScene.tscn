@@ -1,8 +1,7 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://MainScene.gd" type="Script" id=1]
 [ext_resource path="res://tileset.tres" type="TileSet" id=2]
-[ext_resource path="res://Enemy.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Floor-wall.png" type="Texture" id=4]
 [ext_resource path="res://UI.tscn" type="PackedScene" id=5]
 
@@ -358,16 +357,6 @@ points = PoolVector2Array( 64, 128, 32, 128, 32, 0, 64, 0 )
 } ]
 15/z_index = 0
 
-[sub_resource type="Curve2D" id=16]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 1610.64, 349.505, 0, 0, 0, 0, 1610.64, 1088.49, 0, 0, 0, 0, 1935.15, 1099.42, 0, 0, 0, 0, 1926.77, 417.186, 0, 0, 0, 0, 755.671, 403.379, 0, 0, 0, 0, 755.49, 324.511, 0, 0, 0, 0, 1610.64, 349.505 )
-}
-
-[sub_resource type="Curve2D" id=17]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 241.385, 943.305, 0, 0, 0, 0, 437.544, 939.477, 0, 0, 0, 0, 439.458, 1068.66, 0, 0, 0, 0, 814.784, 1070.33, 0, 0, 0, 0, 810.732, 941.707, 0, 0, 0, 0, 1548.25, 945.469, 0, 0, 0, 0, 1549.12, 1096.26, 0, 0, 0, 0, 437.544, 1093.53, 0, 0, 0, 0, 430.846, 1249.51, 0, 0, 0, 0, 244.256, 1247.59, 0, 0, 0, 0, 241.385, 943.305 )
-}
-
 [node name="GroceryScene" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -404,22 +393,20 @@ cell_y_sort = true
 format = 1
 tile_data = PoolIntArray( 65569, 14, 0, 65570, 15, 0, 131080, 5, 0, 131081, 2, 0, 131082, 2, 0, 131083, 2, 0, 131084, 2, 0, 131085, 2, 0, 131086, 2, 0, 131087, 15, 0, 196623, 5, 0, 196624, 2, 0, 196625, 2, 0, 196626, 2, 0, 196627, 2, 0, 196628, 2, 0, 196629, 2, 0, 196630, 2, 0, 196631, 2, 0, 196632, 2, 0, 196633, 2, 0, 196634, 2, 0, 196635, 1, 0, 196636, 2, 0, 196637, 1, 0, 196638, 15, 0, 196640, 14, 0, 196641, 8, 0, 458766, 14, 0, 458767, 2, 0, 458768, 15, 0, 458770, 14, 0, 458771, 2, 0, 458772, 2, 0, 458773, 2, 0, 458774, 2, 0, 458775, 2, 0, 458776, 2, 0, 458777, 2, 0, 458778, 2, 0, 458779, 2, 0, 458780, 2, 0, 458781, 2, 0, 458782, 2, 0, 458783, 2, 0, 458784, 2, 0, 458785, 2, 0, 458786, 2, 0, 458787, 2, 0, 458788, 2, 0, 458789, 6, 0, 524296, 5, 0, 524297, 2, 0, 524298, 2, 0, 524299, 2, 0, 524300, 2, 0, 524301, 2, 0, 524302, 8, 0, 655376, 5, 0, 655377, 2, 0, 655378, 2, 0, 655379, 2, 0, 655380, 2, 0, 655381, 8, 0 )
 
-[node name="Node" type="Node" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="."]
 
-[node name="Enemy" parent="Node" instance=ExtResource( 3 )]
-position = Vector2( 917.311, 374.618 )
-patrol_path = NodePath("../Path2D")
+[node name="1" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 284, 408 )
 
-[node name="Path2D" type="Path2D" parent="Node"]
-position = Vector2( -3.26532, 5.8775 )
-curve = SubResource( 16 )
+[node name="2" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 1344, 560 )
 
-[node name="Node2" type="Node" parent="."]
+[node name="3" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 425.421, 402.343 )
 
-[node name="Enemy" parent="Node2" instance=ExtResource( 3 )]
-position = Vector2( 334.574, 1080.79 )
-patrol_path = NodePath("../Path2D")
+[node name="4" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 798.774, 572.049 )
 
-[node name="Path2D" type="Path2D" parent="Node2"]
-position = Vector2( -3.26532, 5.8775 )
-curve = SubResource( 17 )
+[node name="5" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 1122.84, 1039.52 )
+scale = Vector2( 0.555591, 0.841868 )

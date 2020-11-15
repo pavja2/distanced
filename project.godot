@@ -22,6 +22,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Network="*res://Network.gd"
+gamestate="*res://gamestate.gd"
 
 [input]
 

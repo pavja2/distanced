@@ -22,7 +22,10 @@ puppet var puppet_movement = MoveDirection.NONE
 var shopping_list = []
 
 func _ready ():
-	pass
+	if is_network_master():
+		$Camera2D.current = true
+	else:
+		$Camera2D.current = false
 
 
 func _physics_process(delta):
@@ -43,26 +46,24 @@ func _physics_process(delta):
 	else:
 		_move(puppet_movement)
 		position = puppet_position
-	
-	if get_tree().is_network_server():
-		Network.update_position(int(name), position)
 
 func _move(direction):
 	match direction:
 		MoveDirection.NONE:
-			return
+			vel = Vector2(0, 0)
 		MoveDirection.UP:
-			move_and_collide(Vector2(0, -moveSpeed))
+			vel  = Vector2(0, -moveSpeed)
 			facingDir = Vector2(0, -1)
 		MoveDirection.DOWN:
-			move_and_collide(Vector2(0, moveSpeed))
+			vel = Vector2(0, moveSpeed)
 			facingDir = Vector2(0, 1)
 		MoveDirection.LEFT:
-			move_and_collide(Vector2(-moveSpeed, 0))
+			vel = Vector2(-moveSpeed, 0)
 			facingDir = Vector2(-1, 0)
 		MoveDirection.RIGHT:
-			move_and_collide(Vector2(moveSpeed, 0))
+			vel = Vector2(moveSpeed, 0)
 			facingDir = Vector2(1, 0)
+	move_and_collide(vel)
 	manage_animations()
 		
 func _process (delta):
@@ -104,16 +105,3 @@ func manage_animations ():
 func play_animation (anim_name):
 	if anim.animation != anim_name:
 		anim.play(anim_name)
-
-func init(nickname, start_position, is_puppet):
-	global_position = start_position
-	while len(shopping_list) < 3:
-		var allowed_foods = main.foods_on_screen
-		var food_type = allowed_foods[randi() % allowed_foods.size()]
-		if !shopping_list.has(food_type):
-			shopping_list.append(food_type)
-	ui.update_shopping_list(shopping_list)
-	if not is_puppet:
-		$Camera2D.current = true
-	else:
-		$Camera2D.current = false
