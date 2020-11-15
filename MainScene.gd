@@ -5,6 +5,7 @@ export (PackedScene) var Food
 onready var message = get_node("/root/GroceryScene/CanvasLayer/Message")
 
 var start_position = ""
+var list_complete = false
 
 # Declare member variables here.
 
@@ -104,12 +105,8 @@ remote func spawn_food(food_items):
 		if len(gamestate.food_list) == 0:
 			gamestate.update_food_list(food_items)
 		for food_item in gamestate.food_list:
-			print("Food Item List", food_items)
 			var food = Food.instance()
-			print("Want to set " , food_item['food_type'])
 			food.set_food_type(food_item['food_type'])
-			print("Ended up with ", food_item['food_type'])
-			print(food.foodType)
 			food.position = $FoodSpawns.get_node(str(food_item['spawn_id'])).position
 			#food.position = Vector2(food_item['x'], food_item['y'])
 			add_child(food)
@@ -151,7 +148,7 @@ func _ready():
 
 
 var time = 60
-var time_to_start = 5
+var time_to_start = 3
 
 func _on_player_disconnected(id):
 	get_node(str(id)).queue_free()
@@ -162,11 +159,7 @@ func _on_server_disconnected():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
-func game_over():
-	$CountdownTimer.stop()
-	message.show_game_win()
-
+	
  # Called every frame. 'delta' is the elapsed time since the previous frame.
  #func _process(delta):
  #	pass
@@ -189,3 +182,15 @@ func _on_BeforeGameTimer_timeout():
 		$BeforeGameTimer.stop()
 		$CountdownTimer.start()
 	time_to_start = time_to_start - 1
+
+func _on_Area2D_area_entered(area):
+	print(list_complete)
+	if list_complete:
+		$CountdownTimer.stop()
+		message.show_game_win()
+
+
+func _on_UI_list_complete():
+	list_complete = true
+	print(list_complete)
+	message.show_message("You got all the items!")
