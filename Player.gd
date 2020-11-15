@@ -143,7 +143,14 @@ func _on_area_entered(area):
 		$EnemyNearTimer.start()
 
 func _on_area_exited(area):
-	$EnemyNearTimer.stop()
+	var collide_parent = area.get_parent()
+	if collide_parent.is_class("Enemy") or collide_parent.is_class("Player"):
+		var neighbors = contact_zone.get_overlapping_areas()
+		for neighbor in neighbors:
+			var neighbor_type = neighbor.get_parent()
+			if neighbor_type.is_class("Enemy") or neighbor_type.is_class("Player"):
+				return
+		$EnemyNearTimer.stop()
 
 func _on_EnemyNearTimer_timeout():
 	take_damage(1)
