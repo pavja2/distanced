@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/jingles_NES12.ogg-3fdfc29ed818ebdbd0881e9a32a1e3bf.oggstr"
+
+[deps]
+
+source_file="res://8-Bit jingles/jingles_NES12.ogg"
+dest_files=[ "res://.import/jingles_NES12.ogg-3fdfc29ed818ebdbd0881e9a32a1e3bf.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

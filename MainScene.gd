@@ -168,17 +168,20 @@ func _on_CountdownTimer_timeout():
 	time = time - 1
 	if time == 0:
 		$CountdownTimer.stop()
+		$GameLost.play()
 		message.show_message("Out of time!")
 	message.update_time(time)
 
 func _on_UI_zero_health():
 	$CountdownTimer.stop()
+	$GameLost.play()
 	message.show_message("No health!")
 
 func _on_BeforeGameTimer_timeout():
 	message.show_message(str(time_to_start) + "...")
 	if time_to_start == 0:
 		message.show_message("Start Game!")
+		$GameStart.play()
 		$BeforeGameTimer.stop()
 		$CountdownTimer.start()
 	time_to_start = time_to_start - 1
@@ -187,6 +190,7 @@ func _on_Area2D_area_entered(area):
 	print(list_complete)
 	if list_complete:
 		$CountdownTimer.stop()
+		$GameWon.play()
 		message.show_game_win()
 
 
