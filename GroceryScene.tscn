@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://MainScene.gd" type="Script" id=1]
 [ext_resource path="res://tileset.tres" type="TileSet" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Floor-wall.png" type="Texture" id=4]
 [ext_resource path="res://UI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Message.tscn" type="PackedScene" id=6]
+[ext_resource path="res://8-Bit jingles/jingles_NES07.ogg" type="AudioStream" id=7]
+[ext_resource path="res://8-Bit jingles/jingles_NES13.ogg" type="AudioStream" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 128, 0, 128, 0, 16, 64, 16 )
@@ -703,6 +705,9 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
 } ]
 7/z_index = 0
 
+[sub_resource type="RectangleShape2D" id=35]
+extents = Vector2( 163.237, 144.456 )
+
 [node name="GroceryScene" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -748,6 +753,12 @@ cell_tile_origin = 1
 format = 1
 tile_data = PoolIntArray( 37, 4, 0, 38, 4, 1, 39, 4, 1, 40, 4, 1, 41, 4, 1, 42, 4, 1, 43, 4, 2, 65545, 1, 0, 262181, 4, 0, 262182, 4, 1, 262183, 4, 1, 262184, 4, 1, 262185, 4, 1, 262186, 4, 1, 262187, 4, 2, 262190, -1073741820, 2, 327726, -1073741820, 0, 655397, 4, 0, 655398, 4, 1, 655399, 4, 1, 655400, 4, 1, 655401, 4, 1, 655402, 4, 1, 655403, 4, 2, 1310758, 4, 0, 1310759, 4, 1 )
 
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( -1608, 259.217 )
+tile_set = ExtResource( 2 )
+format = 1
+tile_data = PoolIntArray( 49, 57, 0, 65564, 57, 0, 262179, 61, 0, 262188, 60, 0, 655405, 59, 0, 720935, 59, 0, 983068, 57, 0, 1179685, 57, 0 )
+
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="1" type="Position2D" parent="SpawnPoints"]
@@ -771,34 +782,57 @@ scale = Vector2( 0.555591, 0.841868 )
 [node name="FoodSpawns" type="Node2D" parent="."]
 
 [node name="1" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 792, 295.977 )
+position = Vector2( 792, 280 )
 
 [node name="2" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 1122.84, 935.763 )
+position = Vector2( 1122.84, 924.485 )
 
 [node name="3" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 1056.94, 298.796 )
+position = Vector2( 1056, 280 )
 
 [node name="4" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 792.94, 521.903 )
+position = Vector2( 792, 536 )
 
 [node name="5" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 924.94, 524.722 )
+position = Vector2( 924, 536 )
 
 [node name="6" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 1164.88, 525.662 )
+position = Vector2( 1163.94, 536 )
 
 [node name="7" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 1377.27, 592 )
+position = Vector2( 1365.05, 592 )
 
 [node name="8" type="Position2D" parent="FoodSpawns"]
-position = Vector2( 792, 935.763 )
+position = Vector2( 792, 924.485 )
 
 [node name="9" type="Position2D" parent="FoodSpawns"]
 position = Vector2( 323.177, 1105.5 )
 
 [node name="10" type="Position2D" parent="FoodSpawns"]
 position = Vector2( 798.774, 1473.6 )
-[connection signal="list_complete" from="CanvasLayer/UI" to="." method="game_over"]
+
+[node name="BeforeGameTimer" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Area2D"]
+position = Vector2( 341.719, 388.438 )
+scale = Vector2( 5.00452, 4.0451 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 339.028, 404.715 )
+shape = SubResource( 35 )
+
+[node name="GameStart" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[node name="GameLost" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+
+[node name="GameWon" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+[connection signal="list_complete" from="CanvasLayer/UI" to="." method="_on_UI_list_complete"]
 [connection signal="zero_health" from="CanvasLayer/UI" to="." method="_on_UI_zero_health"]
 [connection signal="timeout" from="CountdownTimer" to="." method="_on_CountdownTimer_timeout"]
+[connection signal="timeout" from="BeforeGameTimer" to="." method="_on_BeforeGameTimer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
