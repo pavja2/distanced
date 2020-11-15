@@ -2,17 +2,16 @@
 
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=1]
 
-[sub_resource type="Curve2D" id=1]
+[sub_resource type="Curve2D" id=35]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 1610.64, 349.505, 0, 0, 0, 0, 1610.64, 1088.49, 0, 0, 0, 0, 1935.15, 1099.42, 0, 0, 0, 0, 1926.77, 417.186, 0, 0, 0, 0, 755.671, 403.379, 0, 0, 0, 0, 755.49, 324.511, 0, 0, 0, 0, 1610.64, 349.505 )
+"points": PoolVector2Array( 0, 0, 0, 0, 767.597, 382.007, 0, 0, 0, 0, 1616.87, 379.772, 0, 0, 0, 0, 1627.3, 1095.69, 0, 0, 0, 0, 1917.84, 1089.73, 0, 0, 0, 0, 1911.88, 418.511, 0, 0, 0, 0, 767.597, 382.007 )
 }
 
 [node name="Bot1" type="Node"]
 
 [node name="Enemy" parent="." instance=ExtResource( 1 )]
-position = Vector2( 917.311, 374.618 )
+position = Vector2( 702.013, 455.82 )
 patrol_path = NodePath("../Path2D")
 
 [node name="Path2D" type="Path2D" parent="."]
-position = Vector2( -3.26532, 5.8775 )
-curve = SubResource( 1 )
+curve = SubResource( 35 )
