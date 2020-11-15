@@ -13,7 +13,7 @@ puppet var repl_position = Vector2()
 
 func on_interact(player):
 	player.give_food(foodType)
-	queue_free()
+	#queue_free()
 
 func _process(delta):
 	if (is_network_master()):
