@@ -7,10 +7,10 @@ signal start_game
 # var b = "text"
 
 func show_game_win():
-	show_message("You Win")
+	show_message("You made it back!")
 	
 func show_game_loss():
-	show_message("You Lose")
+	show_message("You lose!")
 
 func show_message(text):
 	$ResultMessage.text = text

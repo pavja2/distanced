@@ -4,6 +4,9 @@ export (PackedScene) var Food
 
 onready var message = get_node("/root/GroceryScene/CanvasLayer/Message")
 
+var start_position = ""
+var list_complete = false
+
 # Declare member variables here.
 
 var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate",
@@ -39,6 +42,7 @@ remote func spawn_players(pinfo, spawn_index):
 
 	#Set the starting position for the new actor
 	nactor.position = $SpawnPoints.get_node(str(spawn_index)).position
+	start_position = nactor.position
 
 	#If this actor does not belong to the server, give it to a peer as a puppet
 	if (pinfo.net_id != 1):
@@ -101,12 +105,8 @@ remote func spawn_food(food_items):
 		if len(gamestate.food_list) == 0:
 			gamestate.update_food_list(food_items)
 		for food_item in gamestate.food_list:
-			print("Food Item List", food_items)
 			var food = Food.instance()
-			print("Want to set " , food_item['food_type'])
 			food.set_food_type(food_item['food_type'])
-			print("Ended up with ", food_item['food_type'])
-			print(food.foodType)
 			food.position = $FoodSpawns.get_node(str(food_item['spawn_id'])).position
 			#food.position = Vector2(food_item['x'], food_item['y'])
 			add_child(food)
@@ -128,7 +128,7 @@ remote func sync_bots():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$CountdownTimer.start()
+	$BeforeGameTimer.start()
 	# Connect to listen for when the player list changes
 	Network.connect("player_list_changed", self, "_on_player_list_changed")
 
@@ -148,6 +148,7 @@ func _ready():
 
 
 var time = 60
+var time_to_start = 3
 
 func _on_player_disconnected(id):
 	get_node(str(id)).queue_free()
@@ -158,11 +159,7 @@ func _on_server_disconnected():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
-func game_over():
-	$CountdownTimer.stop()
-	message.show_message("You win!")
-
+	
  # Called every frame. 'delta' is the elapsed time since the previous frame.
  #func _process(delta):
  #	pass
@@ -171,9 +168,29 @@ func _on_CountdownTimer_timeout():
 	time = time - 1
 	if time == 0:
 		$CountdownTimer.stop()
-		message.show_message("You lose!")
+		message.show_message("Out of time!")
 	message.update_time(time)
 
 func _on_UI_zero_health():
 	$CountdownTimer.stop()
-	message.show_message("You lose!")
+	message.show_message("No health!")
+
+func _on_BeforeGameTimer_timeout():
+	message.show_message(str(time_to_start) + "...")
+	if time_to_start == 0:
+		message.show_message("Start Game!")
+		$BeforeGameTimer.stop()
+		$CountdownTimer.start()
+	time_to_start = time_to_start - 1
+
+func _on_Area2D_area_entered(area):
+	print(list_complete)
+	if list_complete:
+		$CountdownTimer.stop()
+		message.show_game_win()
+
+
+func _on_UI_list_complete():
+	list_complete = true
+	print(list_complete)
+	message.show_message("You got all the items!")

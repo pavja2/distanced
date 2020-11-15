@@ -9,17 +9,20 @@ var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate",
 
 var foodType = ""
 puppet var repl_position = Vector2()
+puppet var rotate_left = 0
+puppet var repl_rotate_left = 0
 
+remotesync func set_rotate_left(degrees):
+	rotate_left = 360
 
 func on_interact(player):
 	player.give_food(foodType)
-	#queue_free()
+	rpc('set_rotate_left', 360)
 
 func _process(delta):
-	if (is_network_master()):
-		rset("repl_position", position)
-	else:
-		position = repl_position
+	if rotate_left > 0:
+		rotation_degrees -= 10
+		rotate_left -= 10
 
 func set_food_type(food_type):
 	self.foodType = food_type

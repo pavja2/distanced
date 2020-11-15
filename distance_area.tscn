@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://VisibleContactZone.gd" type="Script" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 48.9632
+
+[node name="DistanceArea" type="Area2D"]
+modulate = Color( 0.909804, 0.313726, 0.313726, 0.607843 )
+self_modulate = Color( 0.909804, 0.313726, 0.313726, 0.607843 )
+show_behind_parent = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+modulate = Color( 0.909804, 0.313726, 0.313726, 0.607843 )
+self_modulate = Color( 0.909804, 0.313726, 0.313726, 0.607843 )
+shape = SubResource( 1 )
+script = ExtResource( 1 )
