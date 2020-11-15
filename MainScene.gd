@@ -138,7 +138,7 @@ func _ready():
 #	var info = Network.self_data
 #	new_player.init(info.name, info.position, false)
 var time = 60
-var foods_on_screen = []
+#var foods_on_screen = []
 
 # Called when the node enters the scene tree for the first time.
 func casey_ready():

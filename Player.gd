@@ -3,8 +3,8 @@ extends KinematicBody2D
 onready var ui = get_node("/root/GroceryScene/CanvasLayer/UI")
 onready var message = get_node("/root/GroceryScene/CanvasLayer/Message")
 onready var main = get_node("/root/GroceryScene")
-onready var enemy1 = get_node("/root/GroceryScene/Node/Enemy")
-onready var enemy2 = get_node("/root/GroceryScene/Node2/Enemy")
+#onready var enemy1 = get_node("/root/GroceryScene/Node/Enemy")
+#onready var enemy2 = get_node("/root/GroceryScene/Node2/Enemy")
 
 var moveSpeed : int = 5.0
 var damage : int = 20
@@ -125,5 +125,6 @@ func init(nickname, start_position, is_puppet):
 		$Camera2D.current = false
 
 func _on_EnemyNearTimer_timeout():
-	if position.distance_to(enemy1.position) <= damageDist or position.distance_to(enemy2.position) <= damageDist:
-		take_damage(damage)
+	pass
+	#if position.distance_to(enemy1.position) <= damageDist or position.distance_to(enemy2.position) <= damageDist:
+	#	take_damage(damage)

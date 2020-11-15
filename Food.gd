@@ -8,6 +8,8 @@ var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate",
 "turkey"]
 
 var foodType = food_types[randi() % food_types.size()]
+puppet var repl_position = Vector2()
+
 
 func on_interact(player):
 	player.give_food(foodType)
@@ -17,6 +19,7 @@ func on_interact(player):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Sprite.animation = foodType
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
