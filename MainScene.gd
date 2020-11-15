@@ -4,6 +4,8 @@ export (PackedScene) var Food
 
 onready var message = get_node("/root/GroceryScene/CanvasLayer/Message")
 
+var start_position = ""
+
 # Declare member variables here.
 
 var food_types = ["apples","bananas","broccoli", "cake", "cheese", "chocolate",
@@ -39,6 +41,7 @@ remote func spawn_players(pinfo, spawn_index):
 
 	#Set the starting position for the new actor
 	nactor.position = $SpawnPoints.get_node(str(spawn_index)).position
+	start_position = nactor.position
 
 	#If this actor does not belong to the server, give it to a peer as a puppet
 	if (pinfo.net_id != 1):
@@ -128,7 +131,7 @@ remote func sync_bots():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$CountdownTimer.start()
+	$BeforeGameTimer.start()
 	# Connect to listen for when the player list changes
 	Network.connect("player_list_changed", self, "_on_player_list_changed")
 
@@ -148,6 +151,7 @@ func _ready():
 
 
 var time = 60
+var time_to_start = 5
 
 func _on_player_disconnected(id):
 	get_node(str(id)).queue_free()
@@ -161,7 +165,7 @@ func _on_server_disconnected():
 
 func game_over():
 	$CountdownTimer.stop()
-	message.show_message("You win!")
+	message.show_game_win()
 
  # Called every frame. 'delta' is the elapsed time since the previous frame.
  #func _process(delta):
@@ -171,9 +175,17 @@ func _on_CountdownTimer_timeout():
 	time = time - 1
 	if time == 0:
 		$CountdownTimer.stop()
-		message.show_message("You lose!")
+		message.show_message("Out of time!")
 	message.update_time(time)
 
 func _on_UI_zero_health():
 	$CountdownTimer.stop()
-	message.show_message("You lose!")
+	message.show_message("No health!")
+
+func _on_BeforeGameTimer_timeout():
+	message.show_message(str(time_to_start) + "...")
+	if time_to_start == 0:
+		message.show_message("Start Game!")
+		$BeforeGameTimer.stop()
+		$CountdownTimer.start()
+	time_to_start = time_to_start - 1
