@@ -35,6 +35,7 @@ func _ready ():
 	contact_zone = contact_zone_class.instance()
 	add_child(contact_zone)
 	contact_zone.connect("area_entered", self, '_on_area_entered')
+	contact_zone.connect("area_exited", self, '_on_area_exited')
 
 	if is_network_master():
 		$Camera2D.current = true
@@ -139,4 +140,10 @@ func take_damage(damage):
 func _on_area_entered(area):
 	var collide_parent = area.get_parent()
 	if collide_parent.is_class("Enemy") or collide_parent.is_class("Player"):
-		take_damage(damage)
+		$EnemyNearTimer.start()
+
+func _on_area_exited(area):
+	$EnemyNearTimer.stop()
+
+func _on_EnemyNearTimer_timeout():
+	take_damage(1)
