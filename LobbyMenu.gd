@@ -66,10 +66,10 @@ func refresh_lobby():
 	# Only the host gets a start button
 	if not get_tree().is_network_server():
 		$PlayerMenu/HBoxContainer/Start.hide()
-		$PlayerMenu/HBoxContainer/Start/Label.show()
+		$PlayerMenu/HBoxContainer/WaitingLabel.show()
 	else:
 		$PlayerMenu/HBoxContainer/Start.show()
-		$PlayerMenu/HBoxContainer/Start/Label.hide()
+		$PlayerMenu/HBoxContainer/WaitingLabel.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

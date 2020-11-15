@@ -196,7 +196,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="PlayerMenu/HBoxContainer"]
+[node name="WaitingLabel" type="Label" parent="PlayerMenu/HBoxContainer"]
 visible = false
 margin_left = 77.0
 margin_right = 522.0

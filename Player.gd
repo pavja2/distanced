@@ -12,7 +12,7 @@ var damageDist : int = 200
 var interactDist : int = 100
 
 var vel = Vector2()
-var facingDir = Vector2()
+var facingDir = Vector2(1, 0)
 
 enum MoveDirection { UP, DOWN, LEFT, RIGHT, NONE }
 
